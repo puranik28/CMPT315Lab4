@@ -21,27 +21,24 @@ app.use("/monsters", monsters);
 // Start Express server
 app.listen(port, async function () {
   console.log(`🚀 Fire app listening on port ${port}!`);
-
   try {
-      
-      const response = await axios.get("https://gist.githubusercontent.com/mrchenliang/e438f666d121261b74abcd70a5f938d8/raw/a8f14ee5097fe2ab4f78798307d2dd3dcb0dcd3a/monsters.json");
-      let jsonData = response.data;
-
-      const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true, useUnifiedTopology: true });
-      await client.connect();
-      const db = client.db("monsterworld"); 
-      const collection = db.collection("monsters");
-       
-      if (Array.isArray(jsonData)) {
-          await collection.insertMany(jsonData);
-      } else {
-          jsonData = JSON.parse(jsonData);
-          await collection.insertMany(jsonData);
-      }
-
-      console.log(`Data inserted successfully!`);
-
+    const response = await axios.get("https://gist.githubusercontent.com/mrchenliang/e438f666d121261b74abcd70a5f938d8/raw/a8f14ee5097fe2ab4f78798307d2dd3dcb0dcd3a/monsters.json");
+    let jsonData = response.data;
+    
+    const client = new MongoClient("mongodb://localhost:27017", { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+    const db = client.db("monsterworld"); 
+    const collection = db.collection("monsters");
+    
+    if (Array.isArray(jsonData)) {
+      await collection.insertMany(jsonData);
+    } else {
+      jsonData = JSON.parse(jsonData);
+      await collection.insertMany(jsonData);
+    }
+    
+    console.log(`Data inserted successfully!`);
   } catch (error) {
-      console.error(`Error with inserting data into MongoDB`);
+    console.error(`Error with inserting data into MongoDB`);
   }
 });
