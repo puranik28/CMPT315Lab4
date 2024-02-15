@@ -1,0 +1,1 @@
+const firstname="Chen";const lastname="Liang";const age=38;console.log(firstname);console.log(lastname);console.log(age);
